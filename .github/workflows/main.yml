@@ -30,6 +30,6 @@ jobs:
           memory_size: 128
           timeout: 10
           handler: foobar
-          role: arn:aws:iam::xxxxxxxxxxx:role/test1234
+          role: arn:aws:iam::854293893168:user/worknet
           runtime: nodejs16.x
           
