@@ -16,9 +16,9 @@ jobs:
           CI: true
         run: |
           npm ci
-      - name: Build binary
-        run: |
-          aws lambda update-function-code --function-name=worknetExersice --zip-file=fileb://deploy.zip
+      # - name: Build binary
+      #   run: |
+      #     aws lambda update-function-code --function-name=worknetExersice --zip-file=fileb://deploy.zip
       - name: default deploy
         uses: appleboy/lambda-action@master
         with:
