@@ -17,6 +17,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+      - name: AWS Lambda FunctionCode Update
+        uses: taotao2345/aws-lambda-updatecode@v1.0.0
+        with:
+    # Target function name
+          function_name: worknetExersice
+    # Package zip file path
+          zip_file: deploy.zip
+    # `true` to run PublishVersion operation. Default: `false`
+          publish: # optional
       - name: npm install
         env:
           CI: true
@@ -26,15 +35,7 @@ jobs:
       #   run: |
       #     zip -r deploy.zip ./src
       #     aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip
-      - name: AWS Lambda FunctionCode Update
-       uses: taotao2345/aws-lambda-updatecode@v1.0.0
-       with:
-    # Target function name
-         function_name: worknetExersice
-    # Package zip file path
-         zip_file: deploy.zip
-    # `true` to run PublishVersion operation. Default: `false`
-         publish: # optional
+
 
 
 
