@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/razzarkor/worknetExersice#readme",
   "dependencies": {
-    "aws-lambda": "^1.0.7"
+    "aws-lambda": "^1.0.7",
+    "serverless": "^3.22.0"
   }
 }
