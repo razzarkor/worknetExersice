@@ -4,6 +4,7 @@ on: [push]
   
 jobs:
   lambda-deploy:
+    name: deploy
   	runs-on: windows-latest
     steps:
       - name: Checkout to repo
