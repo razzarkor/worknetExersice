@@ -3,7 +3,7 @@
 export const handler = async (event) => {
   const response = {
     statusCode: 200,
-    body: JSON.stringify('Hello from razzz! 123'),
+    body: JSON.stringify('Hello from Oded! 123'),
   };
   return response;
 };
