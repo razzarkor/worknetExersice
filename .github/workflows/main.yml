@@ -14,8 +14,15 @@ jobs:
           node-version: '16.x'
       - name: Install serverless globally
         run: npm install -g serverless    
-      - name: Configure serverless authentication
-        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+- name: AWS Lambda FunctionCode Update
+  uses: taotao2345/aws-lambda-updatecode@v1.0.0
+  env:
+    AWS_REGION: ${{ secrets.AWS_REGION }}
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  with:
+    function_name: worknetExersice
+    zip_file: worknetExercise\worknetExersice\deploy.zip
       - name: Install npm dependencies
         run: npm ci
      
