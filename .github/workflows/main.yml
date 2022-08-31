@@ -18,21 +18,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: zip js code 
-        run: powershell Compress-Archive C:\Users\razza\OneDrive\Desktop\worknetExersice C:\Users\razza\OneDrive\Desktop\worknetExersiceindex.zip
-    #   - name: AWS Lambda FunctionCode Update "C:\Users\razza\OneDrive\Desktop\worknetExersice"
-    #     uses: taotao2345/aws-lambda-updatecode@v1.0.0
-    #     with:
-    # # Target function name
-    #       function_name: worknetExersice
-    # # Package zip file path
-    #       zip_file: index.zip
-    # # `true` to run PublishVersion operation. Default: `false`
-    #       publish: # optional
-    #   - name: npm install
-    #     env:
-    #       CI: true
-    #     run: |
-    #       npm ci
+        run: 7z a -tzip deploy.zip *.js
+      - name: AWS Lambda FunctionCode Update
+        uses: taotao2345/aws-lambda-updatecode@v1.0.0
+        with:
+    # Target function name
+          function_name: worknetExersice
+    # Package zip file path
+          zip_file: deploy.zip
+    # `true` to run PublishVersion operation. Default: `false`
+          publish: # optional
+      - name: npm install
+        env:
+          CI: true
+        run: |
+          npm ci
       # - name: deploy
       #   run: |
       #     zip -r deploy.zip ./src
