@@ -1,9 +1,6 @@
 name: lambda-deployment-with-github-action-test
 
-on: 
-  push:
-    branches:
-        main # You can use any of your root or master branch name
+on: [push]
   
 jobs:
   lambda-deploy:
