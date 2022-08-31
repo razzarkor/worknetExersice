@@ -1,33 +1,68 @@
-name: deploy to lambda
-on: [push]
-jobs:
+name: Deploy
 
-  deploy_zip:
-    name: deploy lambda function
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  deploy_lambda:
     runs-on: windows-latest
     steps:
-      - name: checkout source code
-        uses: actions/checkout@v2
-      - name: Setup node environment
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
-      - name: Install serverless globally
-        run: npm install -g serverless    
-      - name: AWS Lambda FunctionCode Update
-        uses: taotao2345/aws-lambda-updatecode@v1.0.0
+          node-version: '16'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: npm install
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        with:
-          function_name: worknetExersice
-          zip_file: worknetExersice/deploy.zip
-      - name: Install npm dependencies
-        run: npm ci
+          CI: true
+        run: |
+          npm ci
+      - name: deploy
+        run: |
+          zip -r deploy.zip ./src
+          aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip
+
+
+
+
+
+# name: deploy to lambda
+# on: [push]
+# jobs:
+
+#   deploy_zip:
+#     name: deploy lambda function
+#     runs-on: windows-latest
+#     steps:
+#       - name: checkout source code
+#         uses: actions/checkout@v2
+#       - name: Setup node environment
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: '16.x'
+#       - name: Install serverless globally
+#         run: npm install -g serverless    
+#       - name: AWS Lambda FunctionCode Update
+#         uses: taotao2345/aws-lambda-updatecode@v1.0.0
+#         env:
+#           AWS_REGION: ${{ secrets.AWS_REGION }}
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         with:
+#           function_name: worknetExersice
+#           zip_file: worknetExersice/deploy.zip
+#       - name: Install npm dependencies
+#         run: npm ci
      
-      - name: Deploy lambda function
-        run: sls deploy
+#       - name: Deploy lambda function
+#         run: sls deploy
 
 
 
