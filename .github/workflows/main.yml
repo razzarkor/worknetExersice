@@ -22,10 +22,21 @@ jobs:
           CI: true
         run: |
           npm ci
-      - name: deploy
-        run: |
-          zip -r deploy.zip ./src
-          aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip
+      # - name: deploy
+      #   run: |
+      #     zip -r deploy.zip ./src
+      #     aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip
+      - name: AWS Lambda FunctionCode Update
+  # You may pin to the exact commit or the version.
+  # uses: taotao2345/aws-lambda-updatecode@f56d836581314762c133ec6e85b2f2c127a9846a
+  uses: taotao2345/aws-lambda-updatecode@v1.0.0
+  with:
+    # Target function name
+    function_name: worknetExersice
+    # Package zip file path
+    zip_file: deploy.zip
+    # `true` to run PublishVersion operation. Default: `false`
+    publish: # optional
 
 
 
