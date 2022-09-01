@@ -33,46 +33,41 @@ jobs:
           CI: true
         run: |
           npm ci
-      # - name: deploy
-      #   run: |
-      #     zip -r deploy.zip ./src
-      #     aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip
 
 
 
+name: deploy to lambda
+on: [push]
+jobs:
 
-
-
-# name: deploy to lambda
-# on: [push]
-# jobs:
-
-#   deploy_zip:
-#     name: deploy lambda function
-#     runs-on: windows-latest
-#     steps:
-#       - name: checkout source code
-#         uses: actions/checkout@v2
-#       - name: Setup node environment
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: '16.x'
-#       - name: Install serverless globally
-#         run: npm install -g serverless    
-#       - name: AWS Lambda FunctionCode Update
-#         uses: taotao2345/aws-lambda-updatecode@v1.0.0
-#         env:
-#           AWS_REGION: ${{ secrets.AWS_REGION }}
-#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         with:
-#           function_name: worknetExersice
-#           zip_file: worknetExersice/deploy.zip
-#       - name: Install npm dependencies
-#         run: npm ci
+  deploy_zip:
+    name: deploy lambda function
+    runs-on: windows-latest
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v2
+      - name: Setup node environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - name: Install serverless globally
+        run: npm install -g serverless    
+        - name: zip js code 
+          run: 7z a -tzip deploy.zip *.js
+      - name: AWS Lambda FunctionCode Update
+        uses: taotao2345/aws-lambda-updatecode@v1.0.0
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        with:
+          function_name: worknetExersice
+          zip_file: worknetExersice/deploy.zip
+      - name: Install npm dependencies
+        run: npm ci
      
-#       - name: Deploy lambda function
-#         run: sls deploy
+      - name: Deploy lambda function
+        run: sls deploy
 
 
 
@@ -83,32 +78,5 @@ jobs:
 
 
 
-  # deploy_zip:
-  #   name: deploy lambda function
-  #   runs-on: windows-latest
-  #   strategy:
-  #     matrix:
-  #       go-version: [1.13.x]
-  #   steps:
-  #     - name: checkout source code
-  #       uses: actions/checkout@v1
-  #     - name: npm install
-  #       env:
-  #         CI: true
-  #       run: |
-  #         npm ci
-  #     # - name: Build binary
-  #     #   run: |
-  #     #     aws lambda update-function-code --function-name=worknetExersice --zip-file=fileb://deploy.zip
-  #     - name: default deploy
-  #       uses: appleboy/lambda-action@master
-  #       with:
-  #         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: ${{ secrets.AWS_REGION }}
-  #         function_name: worknetExersice
-  #         zip_file: worknetExersice/deploy.zip
-  #         handler: index.handler
-  #         role: arn:aws:iam::854293893168:user/worknet
-  #         runtime: nodejs16.x
-          
+
+ 
